@@ -53,21 +53,21 @@ const Page = async ({ params, searchParams }: Props) => {
     },
   });
 
-  const monthSales = LastSeventyDaySales.filter((sale) => {
+  const monthSales = LastSeventyDaySales.filter((sale: any) => {
     return sale.createdAt >= new Date(Date.now() - 30 * 24 * 60 * 60 * 1000);
   })
 
-  const lastTwoMonthSales = LastSeventyDaySales.filter((sale) => {
+  const lastTwoMonthSales = LastSeventyDaySales.filter((sale:any) => {
     const startDate = new Date(Date.now() - 31 * 24 * 60 * 60 * 1000);
     const endDate = new Date(Date.now() - 60 * 24 * 60 * 60 * 1000);
     return sale.createdAt >= startDate && sale.createdAt <= endDate;
   })
 
-  const weekSales = monthSales.filter((sale) => {
+  const weekSales = monthSales.filter((sale:any) => {
     return sale.createdAt >= new Date(Date.now() - 7 * 24 * 60 * 60 * 1000);
   })
 
-  const lastWeekSales = monthSales.filter((sale) => {
+  const lastWeekSales = monthSales.filter((sale:any) => {
     // return sale.createdAt >= new Date(Date.now() - 14 * 24 * 60 * 60 * 1000);
     const startDate = new Date(Date.now() - 8 * 24 * 60 * 60 * 1000);
     const endDate = new Date(Date.now() - 14 * 24 * 60 * 60 * 1000);

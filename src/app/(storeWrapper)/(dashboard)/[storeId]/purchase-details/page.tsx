@@ -3,7 +3,6 @@ import { getServerSession } from "next-auth";
 import Blocks from "./block";
 import { authOptions } from "@/lib/auth"; 
 import prismadb from "@/lib/prismadb";
-import { purchase } from "@/lib/types";
 
 
 type Props = {
@@ -33,7 +32,7 @@ const Page = async ({ params, searchParams }: Props) => {
     }
   })
 
-  const purchase:purchase[] = await prismadb.purchase.findMany({
+  const purchase = await prismadb.purchase.findMany({
     where: {
       storeId,
       createdAt: {
@@ -45,30 +44,30 @@ const Page = async ({ params, searchParams }: Props) => {
     }
   });
 
-  const lastSeventyDayPurchase:purchase[] = await prismadb.purchase.findMany({
+  const lastSeventyDayPurchase = await prismadb.purchase.findMany({
     where: {
       storeId,
       createdAt: {
         gte: new Date(Date.now() - 70 * 24 * 60 * 60 * 1000),
       }
     },
-  }) as purchase[];
+  });
 
-  const monthPurchase = lastSeventyDayPurchase.filter((sale) => {
+  const monthPurchase = lastSeventyDayPurchase.filter((sale : any) => {
     return sale.createdAt >= new Date(Date.now() - 30 * 24 * 60 * 60 * 1000);
   })
 
-  const lastTwoMonthPurchase = lastSeventyDayPurchase.filter((purchase) => {
+  const lastTwoMonthPurchase = lastSeventyDayPurchase.filter((purchase: any) => {
     const startDate = new Date(Date.now() - 31 * 24 * 60 * 60 * 1000);
     const endDate = new Date(Date.now() - 60 * 24 * 60 * 60 * 1000);
     return purchase.createdAt >= startDate && purchase.createdAt <= endDate;
   })
 
-  const weekPurchase = monthPurchase.filter((purchase) => {
+  const weekPurchase = monthPurchase.filter((purchase:any) => {
     return purchase.createdAt >= new Date(Date.now() - 7 * 24 * 60 * 60 * 1000);
   })
 
-  const lastWeekPurchase = monthPurchase.filter((purchase) => {
+  const lastWeekPurchase = monthPurchase.filter((purchase:any) => {
     // return purchase.createdAt >= new Date(Date.now() - 14 * 24 * 60 * 60 * 1000);
     const startDate = new Date(Date.now() - 8 * 24 * 60 * 60 * 1000);
     const endDate = new Date(Date.now() - 14 * 24 * 60 * 60 * 1000);
