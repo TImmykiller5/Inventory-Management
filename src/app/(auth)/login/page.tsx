@@ -1,4 +1,4 @@
-"use client"
+"use client";
 // import { LockClosedIcon } from "@heroicons/react/20/solid";
 import { useState, useContext } from "react";
 // import { Link, useNavigate } from "react-router-dom";
@@ -9,10 +9,10 @@ import { useToast } from "@/hooks/use-toast";
 import axios from "axios";
 import { Button } from "@/components/ui/button";
 import { getServerSession } from "next-auth";
-import { signIn } from "next-auth/react"
+import { signIn } from "next-auth/react";
 
- function Login() {
-  const {toast} = useToast();
+function Login() {
+  const { toast } = useToast();
   const router = useRouter();
 
   const [form, setForm] = useState({
@@ -21,9 +21,7 @@ import { signIn } from "next-auth/react"
   });
 
   const authContext = useContext(AuthContext);
-//   const navigate = useNavigate();
-  
-
+  //   const navigate = useNavigate();
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setForm({ ...form, [e.target.name]: e.target.value });
@@ -48,7 +46,6 @@ import { signIn } from "next-auth/react"
   };
 
   const loginUser = async (e: React.SyntheticEvent) => {
-    
     // Cannot send empty data
     if (form.email === "" || form.password === "") {
       toast({
@@ -72,9 +69,8 @@ import { signIn } from "next-auth/react"
       //     console.log("Something went wrong ", error);
       //   });
       try {
+        // const response = await axios.post("/api/login", form)
 
-        // const response = await axios.post("/api/login", form) 
-        
         // if (response.status === 200) {
         //   toast({
         //     title: "Login successful",
@@ -82,13 +78,13 @@ import { signIn } from "next-auth/react"
         //     duration: 9000,
         //   });
         //   sessionStorage.setItem("user", JSON.stringify(response.data));
-        // } 
+        // }
 
         const response = await signIn("credentials", {
           redirect: false,
           email: form.email,
-          password: form.password
-        })
+          password: form.password,
+        });
         console.log(response);
         if (response?.status === 200) {
           toast({
@@ -100,22 +96,21 @@ import { signIn } from "next-auth/react"
           router.push("/settings/general");
           // sessionStorage.setItem("user", JSON.stringify(response?.user));
         }
-
-      } catch (error: any) {
-        console.log(error);
-        if(error.response.status === 401) {
+        if (response?.status === 401) {
           toast({
             title: "Login failed",
             description: "Wrong credentials, Try again",
             duration: 9000,
           });
-        } else {
-          toast({
-            title: "Login failed",
-            description: "Something went wrong, Try again",
-            duration: 9000,
-          });
         }
+      } catch (error: any) {
+        console.log(error);
+
+        toast({
+          title: "Login failed",
+          description: "Something went wrong, Try again",
+          duration: 9000,
+        });
       }
     }
     authCheck();
@@ -125,7 +120,6 @@ import { signIn } from "next-auth/react"
     e.preventDefault();
   };
 
-  
   return (
     <>
       {/* <Button
@@ -154,9 +148,7 @@ import { signIn } from "next-auth/react"
             </h2>
             <p className="mt-2 text-center text-sm text-gray-600">
               Or
-              <span
-                className="font-medium text-indigo-600 hover:text-indigo-500"
-              >
+              <span className="font-medium text-indigo-600 hover:text-indigo-500">
                 start your 14-day free trial
               </span>
             </p>
@@ -215,9 +207,7 @@ import { signIn } from "next-auth/react"
               </div>
 
               <div className="text-sm">
-                <span
-                  className="font-medium text-indigo-600 hover:text-indigo-500"
-                >
+                <span className="font-medium text-indigo-600 hover:text-indigo-500">
                   Forgot your password?
                 </span>
               </div>
@@ -237,15 +227,13 @@ import { signIn } from "next-auth/react"
                 </span>
                 Sign in
               </button>
-              <p className="mt-2 text-center text-sm text-gray-600">
+              <Link href="/signup" className="mt-2 text-center text-sm text-gray-600">
                 Or{" "}
-                <span
-                  className="font-medium text-indigo-600 hover:text-indigo-500"
-                >
+                <span className="font-medium text-indigo-600 hover:text-indigo-500">
                   Don&apos;t Have an Account, Please{" "}
-                  <Link href="/signup"> Register now </Link>
+                  <> Register now </>
                 </span>
-              </p>
+              </Link>
             </div>
           </form>
         </div>
