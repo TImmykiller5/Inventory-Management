@@ -67,9 +67,15 @@ function Register() {
           })
           router.push("/login");
         } 
-    } catch (error) {
-        console.log(error);
-        toast({
+    } catch (error:any) {
+        if (error.response) {
+          return toast({
+            title: "Registration failed",
+            description: error.response.data,
+            duration: 9000,
+          })
+        }
+        return toast({
           title: "Registration failed",
           description: "Something went wrong",
           duration: 9000,

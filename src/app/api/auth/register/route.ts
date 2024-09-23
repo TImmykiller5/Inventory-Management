@@ -42,8 +42,11 @@ export async function POST(request: Request) {
         }
     });
     return NextResponse.json({ user, message: "User created successfully" }, { status: 201 });
-  } catch (e) {
-    console.log({ e });
+  } catch (e : any) {
+    console.log(e.code);
+    if(e.code === 'P2002'){
+        return new NextResponse("Email already exists", { status: 400 });
+    }
     return new NextResponse("Internal Error", { status: 500 });
   }
 
