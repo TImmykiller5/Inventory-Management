@@ -45,14 +45,14 @@ const Page = async ({ params, searchParams }: Props) => {
     }
   });
 
-  const lastSeventyDayPurchase = await prismadb.purchase.findMany({
+  const lastSeventyDayPurchase:purchase[] = await prismadb.purchase.findMany({
     where: {
       storeId,
       createdAt: {
         gte: new Date(Date.now() - 70 * 24 * 60 * 60 * 1000),
       }
     },
-  });
+  }) as purchase[];
 
   const monthPurchase = lastSeventyDayPurchase.filter((sale) => {
     return sale.createdAt >= new Date(Date.now() - 30 * 24 * 60 * 60 * 1000);
