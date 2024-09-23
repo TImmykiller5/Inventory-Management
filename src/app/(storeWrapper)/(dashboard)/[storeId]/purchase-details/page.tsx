@@ -3,6 +3,7 @@ import { getServerSession } from "next-auth";
 import Blocks from "./block";
 import { authOptions } from "@/lib/auth"; 
 import prismadb from "@/lib/prismadb";
+import { purchase } from "@/lib/types";
 
 
 type Props = {
@@ -32,7 +33,7 @@ const Page = async ({ params, searchParams }: Props) => {
     }
   })
 
-  const purchase = await prismadb.purchase.findMany({
+  const purchase:purchase[] = await prismadb.purchase.findMany({
     where: {
       storeId,
       createdAt: {
