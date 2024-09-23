@@ -6,7 +6,9 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "vercel-build": "prisma generate && prisma migrate && next build",
+    "prisma:generate": "prisma generate"
   },
   "dependencies": {
     "@cloudinary/react": "^1.13.0",
