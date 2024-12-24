@@ -96,6 +96,7 @@ export default function Header() {
   const { storeDetails } = useStore();
 
   const getProducts = async () => {
+    if (!storeDetails) return;
     setProducts({
       loading: true,
       data: [],
@@ -107,6 +108,7 @@ export default function Header() {
         loading: false,
         data: res.data,
       });
+      setFilteredProducts(res.data);
     } catch (error) {
       console.log(error);
       setProducts({
@@ -139,7 +141,7 @@ export default function Header() {
       );
       setFilteredProducts(filtered);
     } else {
-      setFilteredProducts([]);
+      setFilteredProducts(products.data);
     }
   };
 
@@ -227,7 +229,7 @@ export default function Header() {
               placeholder="Search products..."
               className="pl-8 sm:w-[300px] md:w-[200px] lg:w-[300px]"
             />
-            <div className="absolute group-focus-within:opacity-100 group-focus-within:scale-100 group-focus-within:pointer-events-auto transition-all opacity-0 scale-50 pointer-events-none max-h-32 overflow-y-scroll top-[130%] p-2 w-full shadow-md rounded-sm bg-white ">
+            <div className="absolute group-focus-within:opacity-100 group-focus-within:scale-100 group-focus-within:pointer-events-auto transition-all opacity-0 scale-0 pointer-events-none max-h-32 overflow-y-scroll top-[130%] p-2 w-full shadow-md rounded-sm bg-white ">
               {filteredProducts.length > 0 ? (
                 filteredProducts.map((product, index) => (
                   <Link
@@ -237,11 +239,11 @@ export default function Header() {
                   >
                     <div className=" flex gap-2 hover:bg-muted h-full ">
                       <div className="h-10 w-10">
-                        <img
+                        {/* <img
                           className="w-full h-full object-cover"
                           src={product.image || ""}
                           alt={`image of  ${product.name}`}
-                        />
+                        /> */}
                       </div>
                       <div className=" block my-auto text-sm ">
                         {product.name}

@@ -22,7 +22,6 @@ const CellAction: React.FC<CellActionProps> = (
 ) => {
     const pathname = usePathname()
     const storeID = pathname?.split('/')[1]
-    console.log(storeID)
     const router = useRouter()
     const params = useParams() 
     const [loading, setLoading] = useState(false)

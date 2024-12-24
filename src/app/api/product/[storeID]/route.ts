@@ -6,7 +6,7 @@ import { authOptions } from "@/lib/auth";
 
 export async function GET(request: Request, response: Response) {
     const session = await getServerSession(authOptions)
-    console.log(session)
+    // console.log(session)
     // // const token = await getToken()
     // console.log(session)
 
@@ -26,6 +26,7 @@ export async function GET(request: Request, response: Response) {
                     name:{
                         contains:prompt
                     },
+                    ownerId: session?.user?.id
                     
                 },
                 include: {
@@ -37,7 +38,7 @@ export async function GET(request: Request, response: Response) {
         );
         return NextResponse.json(products, { status: 200 });
     } catch (error) {
-        console.log(error)
+        // console.log(error)
         return new NextResponse("Internal Error", { status: 500 });
     }
 
@@ -60,7 +61,7 @@ export async function POST(request: Request, response: Response) {
         if (!session) {
             return new NextResponse("Unauthorized", { status: 401 });
         }
-        const requiredKeys = ['name', 'description', 'image', 'price', 'category',  'storeId']
+        const requiredKeys = ['name', 'description', 'image', 'price', 'category',  'storeId', 'salePrice']
         if (!request.body) {
             return new NextResponse("No data", { status: 400 });
         }
@@ -71,7 +72,7 @@ export async function POST(request: Request, response: Response) {
         }
     
         console.log(session)
-        const { name, description, image, price, category, storeId } = body;
+        const { name, description, image, price, category, storeId, salePrice } = body;
         const product = await prismadb.product.create({
             data: {
                 name,
@@ -83,9 +84,8 @@ export async function POST(request: Request, response: Response) {
                 // ownerId: userId,
                 owner: { connect: { id: session?.user?.id } },
                 Restocked: null,
-                store: { connect: { id: storeId } }
-                
-
+                store: { connect: { id: storeId } },
+                salePrice: salePrice
             }
         })
         return NextResponse.json(product, { status: 201 });

@@ -77,7 +77,6 @@ type props = {
 
 export default function ProductDetail({ product, type, params }: props) {
   const { toast } = useToast();
-  console.log(params)
   const { storeId } = params
 
   const { data: session } = useSession()
@@ -103,6 +102,7 @@ export default function ProductDetail({ product, type, params }: props) {
     price: z.coerce.number().min(1, { message: "Price is required" }),
     image: z.string().min(1, { message: "Image is required" }),
     category: z.string().min(1, { message: "Category is required" }),
+    salePrice: z.coerce.number().min(1, { message: "Sale Price is required" }),
   });
 
   type ProductFormValues = z.infer<typeof productFormSchema>;
@@ -114,6 +114,7 @@ export default function ProductDetail({ product, type, params }: props) {
       price: product?.price || 0,
       image: product?.image || "",
       category: product?.category?.id || "",
+      salePrice: product?.salePrice || 0,
       
     },
   });
@@ -154,6 +155,7 @@ export default function ProductDetail({ product, type, params }: props) {
         price: data.price,
         image: data.image,
         categoryId: data.category,
+        salePrice: data.salePrice
       });
       if (response.status === 200) {
         toast({
@@ -257,7 +259,7 @@ export default function ProductDetail({ product, type, params }: props) {
     }
   }
   return (
-    <div className="flex min-h-screen w-full flex-col bg-muted/40">
+    <div className="flex h-full w-full flex-col bg-muted/40">
       <Dialog open={open} onOpenChange={setOpen}>
         <DialogContent>
           <DialogHeader>
@@ -331,10 +333,10 @@ export default function ProductDetail({ product, type, params }: props) {
                     {product?.stock > 0 ? "In Stock" : "Out of Stock"}
                   </Badge>}
                   <div className="hidden items-center gap-2 md:ml-auto md:flex">
-                    <Button variant="outline" size="sm">
+                    <Button disabled={loadingPro} variant="outline" size="sm">
                       Discard
                     </Button>
-                    <Button size="sm">Save Product</Button>
+                    <Button disabled={loadingPro} size="sm">{loadingPro ? <Loader2 className="animate-spin h-4 w-4" /> : "Save Product"}</Button>
                   </div>
                 </div>
                 <div className="grid gap-4 md:grid-cols-[1fr_250px] lg:grid-cols-3 lg:gap-8">
@@ -532,7 +534,7 @@ export default function ProductDetail({ product, type, params }: props) {
                       <CardHeader>
                         <CardTitle>Product Image</CardTitle>
                         <CardDescription>
-                          Lipsum dolor sit amet, consectetur adipiscing elit
+                          Upload an image of the product
                         </CardDescription>
                       </CardHeader>
                       <CardContent>
@@ -558,28 +560,60 @@ export default function ProductDetail({ product, type, params }: props) {
                         </div>
                       </CardContent>
                     </Card>
-                    <Card x-chunk="dashboard-07-chunk-5">
+                    <Card x-chunk="dashboard-07-chunk-3">
                       <CardHeader>
-                        <CardTitle>Archive Product</CardTitle>
-                        <CardDescription>
-                          Lipsum dolor sit amet, consectetur adipiscing elit.
-                        </CardDescription>
+                        <CardTitle>Product Sale Price</CardTitle>
                       </CardHeader>
                       <CardContent>
-                        <div></div>
-                        <Button size="sm" variant="secondary">
-                          Archive Product
-                        </Button>
+                        <div className="grid gap-6">
+                          <div className="grid gap-3">
+                            <FormField
+                              control={productForm.control}
+                              name="salePrice"
+                              render={({ field }) => (
+                                <FormItem>
+                                  <FormLabel>Sale Price</FormLabel>
+                                  <FormControl>
+                                    <Input
+                                      type="number"
+                                      placeholder="Salee Price"
+                                      {...field}
+                                    />
+                                  </FormControl>
+                                  <FormMessage />
+                                </FormItem>
+                              )}
+                            />
+                            {/* <Label htmlFor="status">Status</Label>
+                            <Select>
+                              <SelectTrigger
+                                id="status"
+                                aria-label="Select status"
+                              >
+                                <SelectValue placeholder="Select status" />
+                              </SelectTrigger>
+                              <SelectContent>
+                                <SelectItem value="draft">Draft</SelectItem>
+                                <SelectItem value="published">
+                                  Active
+                                </SelectItem>
+                                <SelectItem value="archived">
+                                  Archived
+                                </SelectItem>
+                              </SelectContent>
+                            </Select> */}
+                          </div>
+                        </div>
                       </CardContent>
                     </Card>
                   </div>
                 </div>
                 <div className="flex items-center justify-center gap-2 md:hidden">
-                  <Button variant="outline" size="sm">
+                  <Button disabled={loadingPro} variant="outline" size="sm">
                     Discard
                   </Button>
-                  <Button type="submit" size="sm">
-                    {loadingPro? <Loader2 className="animate-spin h-4 w-4" /> : "Save Product"}
+                  <Button disabled={loadingPro} type="submit" size="sm">
+                    {loadingPro ? <Loader2 className="animate-spin h-4 w-4" /> : "Save Product"}
                   </Button>
                 </div>
               </div>

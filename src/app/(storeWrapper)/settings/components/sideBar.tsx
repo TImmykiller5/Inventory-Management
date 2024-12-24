@@ -8,7 +8,7 @@ type Props = {}
 
 const links = [
     {name: "General", href: "/settings/general"},
-    // {name: "Security", href: "/security"},
+    {name: "Categories", href: "/settings/categories"},
   //   {name: "Integrations", href: "/integrations"},
   //   {name: "Support", href: "/support"},
   //   {name: "Organizations", href: "/organizations"},

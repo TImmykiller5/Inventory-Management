@@ -5,26 +5,31 @@ import { getToken } from 'next-auth/jwt'
 
 
 export async function GET(request: Request, response: Response) {
-    const session = await getServerSession()
-    // const token = await getToken()
-    console.log(session)
-
-    if (!session) {
-        return new NextResponse("Unauthorized", { status: 401 });
-    }
-    // if(session && session.user) {
-    //     console.log(session.user)
-    // }
     try {
-        const {searchParams} = new URL(request.url)
-        const name = searchParams.get('name') || ''
-        
+        const session = await getServerSession()
+        // const token = await getToken()
+        console.log(session)
+    
+        if (!session) {
+            return new NextResponse("Unauthorized", { status: 401 });
+        }
+        // if(session && session.user) {
+        //     console.log(session.user)
+        // }
+        try {
+            const {searchParams} = new URL(request.url)
+            const name = searchParams.get('name') || ''
+            
+        } catch (error) {
+            
+        }
+        const categories = await prismadb.category.findMany();
+    
+        return NextResponse.json(categories);
     } catch (error) {
-        
+        console.error(error)
+        return new NextResponse("Internal Error", { status: 500 });
     }
-    const categories = await prismadb.category.findMany();
-
-    return NextResponse.json(categories);
 }
 
 export async function POST(request: Request, response: Response) {

@@ -3,6 +3,7 @@ export type product = {
   name: string;
   description: string;
   price: number;
+  salePrice: number | null;
   image: string | null;
   Restocked: Date | null;
   stock: number;
@@ -64,3 +65,10 @@ export type sale = {
   product: Omit<product, "category" | "owner">;
 };
 
+export type category = {
+  id: string;
+  name: string;
+  description: string;
+  createdAt: Date;
+  updatedAt: Date;
+};

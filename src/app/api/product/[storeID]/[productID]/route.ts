@@ -6,16 +6,21 @@ import { authOptions } from "@/lib/auth";
 
 export async function GET(request: Request, { params }: { params: { productID: string } }) {
 
-    const { productID } = params
-    const product = await prismadb.product.findUnique({
-        where: {
-            id: productID
-        },
-        include: {
-            category: true
-        }
-    })
-    return NextResponse.json(product, { status: 200 })
+    try {
+        const { productID } = params
+        const product = await prismadb.product.findUnique({
+            where: {
+                id: productID
+            },
+            include: {
+                category: true
+            }
+        })
+        return NextResponse.json(product, { status: 200 })
+        
+    } catch (error) {
+        return new NextResponse("Internal Error", { status: 500 });
+    }
 }
 
 export async function PATCH(request: Request, { params }: { params: { productID: string } }) {
@@ -35,11 +40,12 @@ export async function PATCH(request: Request, { params }: { params: { productID:
                 ownerId: session.user.id
             },
             data: {
+                salePrice: body.salePrice,
                 name: body.name,
                 description: body.description,
                 price: body.price,
                 image: body.image,
-                categoryId: body.categoryId
+                categoryId: body.categoryId,
             }
         })
         return NextResponse.json({ product , message:"Product updated successfully"}, { status: 200 })
