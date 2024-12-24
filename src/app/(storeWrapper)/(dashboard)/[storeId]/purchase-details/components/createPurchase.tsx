@@ -89,6 +89,15 @@ const CreatePurchase = ({ products, stores }: Props) => {
    form.setValue("store", storeDetails?.id || "")
   }, [form]);
 
+  const handleProductSelect = (value: string) => {
+    const selectedProduct = products.find((product) => product.id === value);
+    if (selectedProduct) {
+      form.setValue("price", selectedProduct.price || 0);
+    } else {
+
+    }
+  };
+
 
 
   const onSubmit = async (data: settingFormValues) => {
@@ -152,15 +161,16 @@ const CreatePurchase = ({ products, stores }: Props) => {
                               {form.formState.errors.product.message}
                             </FormMessage>
                           )}
-                          <Select onValueChange={field.onChange}>
+                          <Select onValueChange={(val) => {field.onChange(val); handleProductSelect(val) }}>
                             <SelectTrigger>
-                              <SelectValue placeholder="Select a product" />
+                              <SelectValue onChange={() => console.log("Change")} placeholder="Select a product" />
                             </SelectTrigger>
                             <SelectContent>
                               {products.map((product) => (
                                 <SelectItem
                                   key={product.id}
                                   value={product.id as string}
+                                  onChange={(e) => console.log(e)}
                                 >
                                   {product.name}
                                 </SelectItem>
@@ -239,6 +249,7 @@ const CreatePurchase = ({ products, stores }: Props) => {
                             </FormMessage>
                           )}
                           <Input
+                            readOnly
                             type="number"
                             placeholder="price"
                             className="input input-bordered w-full max-w-xs"

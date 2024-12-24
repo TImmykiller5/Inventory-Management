@@ -89,7 +89,7 @@ const CreateSales = ({ products, stores }: Props) => {
       product: "",
       // quantity: 0,
       store: storeDetails?.id || "",
-      // price: 0,
+      price: 0,
       date: new Date(),
     },
   });
@@ -98,7 +98,7 @@ const CreateSales = ({ products, stores }: Props) => {
       {
         if (name === "product") {
           const product = products.find((p) => p.id === value.product);
-          form.setValue("price", product?.price || 0);
+          form.setValue("price", product?.salePrice || 0);
         }
       }
     );
@@ -250,6 +250,7 @@ const CreateSales = ({ products, stores }: Props) => {
                             </FormMessage>
                           )}
                           <Input
+                            readOnly
                             type="number"
                             placeholder="price"
                             className="input input-bordered w-full max-w-xs"
