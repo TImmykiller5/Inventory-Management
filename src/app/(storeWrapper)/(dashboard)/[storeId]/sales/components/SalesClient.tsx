@@ -129,7 +129,7 @@ interface DataTableProps<TData, TValue> {
                 <SelectValue placeholder="Range" />
             </SelectTrigger>
             <SelectContent align="end">
-            <SelectItem value="1">1 day</SelectItem>
+              <SelectItem value="1">1 day</SelectItem>
               <SelectItem value="7">1 week</SelectItem>
               <SelectItem value="30">1 month</SelectItem>
               <SelectItem value="90">3 months</SelectItem>

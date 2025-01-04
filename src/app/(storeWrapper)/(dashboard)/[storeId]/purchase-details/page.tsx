@@ -18,7 +18,7 @@ type Props = {
 
 const Page = async ({ params, searchParams }: Props) => {
   const { storeId } = params
-  const range = searchParams.range ? Number(searchParams.range) : 7
+  const range = searchParams.range ? Number(searchParams.range) : 30
   const session = await getServerSession(authOptions)
   const products = await prismadb.product.findMany({
     where: {
