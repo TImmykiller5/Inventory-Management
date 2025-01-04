@@ -10,11 +10,13 @@ import axios from "axios";
 import { Button } from "@/components/ui/button";
 import { getServerSession } from "next-auth";
 import { signIn } from "next-auth/react";
+import { EyeIcon, EyeOffIcon, Loader } from "lucide-react";
 
 function Login() {
   const { toast } = useToast();
   const router = useRouter();
-
+  const [loading, setLoading] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
   const [form, setForm] = useState({
     email: "",
     password: "",
@@ -47,6 +49,8 @@ function Login() {
 
   const loginUser = async (e: React.SyntheticEvent) => {
     // Cannot send empty data
+    e.preventDefault();
+    setLoading(true);
     if (form.email === "" || form.password === "") {
       toast({
         title: "Login failed",
@@ -111,9 +115,10 @@ function Login() {
           description: "Something went wrong, Try again",
           duration: 9000,
         });
+      } finally {
+        setLoading(false);
       }
     }
-    authCheck();
   };
 
   const handleSubmit = (e: React.SyntheticEvent) => {
@@ -172,21 +177,34 @@ function Login() {
                   onChange={handleInputChange}
                 />
               </div>
-              <div>
+              <div className="relative">
                 <label htmlFor="password" className="sr-only">
                   Password
                 </label>
                 <input
                   id="password"
                   name="password"
-                  type="password"
+                  type={showPassword ? "text" : "password"}
                   autoComplete="current-password"
                   required
-                  className="relative block w-full rounded-b-md border-0 py-1.5 px-1.5 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:z-10 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                  className="relative block w-full rounded-b-md border-0 pr-8 py-1.5 px-1.5  text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:z-10 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                   placeholder="Password"
                   value={form.password}
                   onChange={handleInputChange}
                 />
+                {
+                  !showPassword ? (
+                    <EyeIcon
+                      className="absolute size-5 right-2 top-1/2 z-30 -translate-y-1/2 cursor-pointer"
+                      onClick={() => setShowPassword(true)}
+                    />
+                  ) : (
+                    <EyeOffIcon
+                      className="absolute size-5 right-2 z-30 top-1/2 -translate-y-1/2 cursor-pointer"
+                      onClick={() => setShowPassword(false)}
+                    />
+                  )
+                }
               </div>
             </div>
 
@@ -218,6 +236,7 @@ function Login() {
                 type="submit"
                 className="group relative flex w-full justify-center rounded-md bg-indigo-600 py-2 px-3 text-sm font-semibold text-white hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
                 onClick={loginUser}
+                disabled={loading}
               >
                 <span className="absolute inset-y-0 left-0 flex items-center pl-3">
                   {/* <LockClosedIcon
@@ -225,7 +244,8 @@ function Login() {
                     aria-hidden="true"
                   /> */}
                 </span>
-                Sign in
+
+                {loading ? <Loader className="h-5 w-5 animate-spin"/> : "Sign in"}
               </button>
               <Link href="/signup" className="mt-2 text-center text-sm text-gray-600">
                 Or{" "}

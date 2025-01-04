@@ -6,8 +6,8 @@ type Props = {
 }
 
 const Layout = async ({children}: Props) => {
-  const session = await getServerSession();
-  console.log(session)
+  // const session = await getServerSession();
+  // console.log(session)
   return (
     <div>{children}</div>
   )

@@ -121,11 +121,13 @@ export default function Header() {
   React.useEffect(() => {
     getProducts();
   }, [storeDetails]);
-  const logout = async () => {
+  const logout = async (e: React.SyntheticEvent) => {
+    e.preventDefault();
     localStorage.clear();
     sessionStorage.clear();
-    signOut();
-    router.push("/login");
+    const baseUrl = window.location.origin;
+    signOut({
+      callbackUrl: `${baseUrl}/login`,});
   };
 
   const onInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
