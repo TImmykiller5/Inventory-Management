@@ -66,7 +66,7 @@ export function DataTable<TData, TValue>({
   const pathname = usePathname();
   const [pagination, setPagination] = React.useState({
     pageIndex: 0, //initial page index
-    pageSize: 7, //default page size
+    pageSize: 10, //default page size
   });
   const table = useReactTable({
     data,
@@ -95,7 +95,7 @@ export function DataTable<TData, TValue>({
     window.location.href = `${pathname}?range=${range}`;
     // router.refresh()
   };
-  const range = useSearchParams().get("range") || "7";
+  const range = useSearchParams().get("range") || "30";
   return (
     <div className="w-full">
       <div className="flex items-center py-4">
@@ -113,9 +113,12 @@ export function DataTable<TData, TValue>({
               <SelectValue placeholder="Range" />
             </SelectTrigger>
             <SelectContent align="end">
+              <SelectItem value="1">1 day</SelectItem>
               <SelectItem value="7">1 week</SelectItem>
               <SelectItem value="30">1 month</SelectItem>
               <SelectItem value="90">3 months</SelectItem>
+              <SelectItem value="180">6 months</SelectItem>
+              <SelectItem value="365">1 year</SelectItem>
             </SelectContent>
           </Select>
         </div>

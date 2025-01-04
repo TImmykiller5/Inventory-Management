@@ -84,7 +84,7 @@ interface DataTableProps<TData, TValue> {
   // }, 1000)
   window.location.href = `${pathname}?range=${range}`
  }
- const range = useSearchParams().get("range") || "7"
+ const range = useSearchParams().get("range") || "30"
   return (
     <div className="w-full">
       <div className="flex items-center py-4">
@@ -129,9 +129,12 @@ interface DataTableProps<TData, TValue> {
                 <SelectValue placeholder="Range" />
             </SelectTrigger>
             <SelectContent align="end">
-            <SelectItem value="7">1 week</SelectItem>
-            <SelectItem value="30">1 month</SelectItem>
-            <SelectItem value="90">3 months</SelectItem>
+            <SelectItem value="1">1 day</SelectItem>
+              <SelectItem value="7">1 week</SelectItem>
+              <SelectItem value="30">1 month</SelectItem>
+              <SelectItem value="90">3 months</SelectItem>
+              <SelectItem value="180">6 months</SelectItem>
+              <SelectItem value="365">1 year</SelectItem>
             </SelectContent>
           </Select>
         </div>

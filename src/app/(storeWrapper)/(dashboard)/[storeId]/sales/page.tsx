@@ -39,6 +39,9 @@ const Page = async ({ params, searchParams }: Props) => {
         gte: new Date(Date.now() - range * 24 * 60 * 60 * 1000),
       }
     },
+    orderBy: {
+      createdAt: 'desc'
+    },
     include: {
       product: true
     }
