@@ -90,10 +90,9 @@ export function DataTable<TData, TValue>({
       pagination,
     },
   });
-  console.log(table.getSelectedRowModel().flatRows.map((row) => row.original));
   const setRange = (range: string) => {
-    router.push(`${pathname}?range=${range}`);
-    window.location.reload();
+    // router.push(`${pathname}?range=${range}`);
+    window.location.href = `${pathname}?range=${range}`;
     // router.refresh()
   };
   const range = useSearchParams().get("range") || "7";

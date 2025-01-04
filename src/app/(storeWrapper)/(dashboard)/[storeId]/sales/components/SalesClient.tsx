@@ -52,7 +52,7 @@ interface DataTableProps<TData, TValue> {
   const pathname = usePathname()
   const [pagination, setPagination] = React.useState({
     pageIndex: 0, //initial page index
-    pageSize: 7, //default page size
+    pageSize: 10, //default page size
   });
   const table = useReactTable({
     data,
@@ -77,9 +77,12 @@ interface DataTableProps<TData, TValue> {
     },
   })
  const setRange  = (range:string) => {
-  router.push(`${pathname}?range=${range}`)
-  window.location.reload()
-  // router.refresh()
+  //  router.refresh()
+  // router.push(`${pathname}?range=${range}`)
+  // setTimeout(() => {
+  //   window.location.reload()
+  // }, 1000)
+  window.location.href = `${pathname}?range=${range}`
  }
  const range = useSearchParams().get("range") || "7"
   return (
