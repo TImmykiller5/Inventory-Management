@@ -3,7 +3,7 @@ import { Calendar } from '@/components/ui/calendar'
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover'
 import { cn } from '@/lib/utils'
 import { format } from 'date-fns'
-import { CalendarIcon } from 'lucide-react'
+import { CalendarIcon, Pencil } from 'lucide-react'
 import React from 'react'
 import { DateRange } from 'react-day-picker'
 
@@ -16,6 +16,7 @@ type Props = {
 const DatePicker = ({ date, setDate, handleDateApply }: Props) => {
   return (
     <div className="flex items-center space-x-2">
+        
           <Popover>
             <PopoverTrigger asChild>
               <Button

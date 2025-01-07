@@ -7,6 +7,7 @@ import {
   ShoppingCart,
   Package,
   Loader2,
+  Pencil,
 } from "lucide-react";
 import { addDays, format, subDays } from "date-fns";
 import { DateRange } from "react-day-picker";
@@ -43,6 +44,7 @@ import { columns, DataTable } from "./components/table";
 import DatePicker from "./components/datePicker";
 import TableTabs from "./components/tableTabs";
 import ProductInformation from "./components/productInformation";
+import { useRouter } from "next/navigation";
 
 type Props = {
   params: {
@@ -62,6 +64,7 @@ export default function ProductDetails({ params }: Props) {
     purchases: false,
     product: false,
   });
+  const router = useRouter();
   const productID = params.productID;
   const storeId = params.storeId;
   const [date, setDate] = React.useState<DateRange | undefined>({
@@ -188,11 +191,16 @@ export default function ProductDetails({ params }: Props) {
           )}
         </h1>
 
+          <div className="flex items-center gap-2">
+            <Button variant={"outline"} onClick={() => router.push(`/${storeId}/inventory/edit/${productID}`)}>
+                      <Pencil className='h-4 w-4' />
+                    </Button>
         <DatePicker
           date={date}
           setDate={setDate}
           handleDateApply={handleDateApply}
-        />
+          />
+          </div>
       </div>
 
       {loading.product || loading.purchases || loading.sales ? (
